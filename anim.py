@@ -103,7 +103,7 @@ def move(button, buttondest, content):
 
         button.place(x=x, y=y, relx=0, rely=0, bordermode='outside')
 
-def start_iterations(tam_Frame, so, proc, Frames, Frames_so, instrucciones):
+def start_iterations(tam_Frame, so, proc, Frames, Frames_so, instructions):
     clear()
     global anim_speed
     replacements = 0
@@ -172,11 +172,11 @@ def start_iterations(tam_Frame, so, proc, Frames, Frames_so, instrucciones):
 
     salida_archivo = ''
 
-    for instruccion in instrucciones:
+    for instruccion in instructions:
         pag = instruccion[0]//tam_Frame
-        tipo = "Lectura" if instruccion[1]=='L' else "Escritura"
-        salida_archivo += f'Instrucción:      Address {instruccion[0]} {tipo}\n'
-        labelinstruccion.config(text=f'Instrucción:      Address {instruccion[0]} {tipo}   >>>   Pagina {pag}')
+        tipo = "Reading" if instruccion[1]=='L' else "Writing"
+        salida_archivo += f'Instruction:      Address {instruccion[0]} {tipo}\n'
+        labelinstruccion.config(text=f'Instruction:      Address {instruccion[0]} {tipo}   >>>   Pagina {pag}')
         bitacora.config(text=f'The requested page is {pag}')
         salida_archivo += f'The requested page is {pag}\n'
 
@@ -591,22 +591,22 @@ def check_values():
         wlabel.config(text=f'Free Frames conflict with Frames to be used by the OS that are: {str(Frames_so)}\n')
         return
     
-    instrucciones = []
+    instructions = []
 
     try:
         with open(file_name, encoding='utf-8-sig') as f:
             opened_file = csv.reader(f, delimiter=',')
             for row in opened_file:
-                instrucciones.append(row)
+                instructions.append(row)
                 
-        instrucciones = tuple(zip(instrucciones[0], instrucciones[1]))
-        instrucciones = [(int(tuple[0]), tuple[1]) for tuple in instrucciones]
+        instructions = tuple(zip(instructions[0], instructions[1]))
+        instructions = [(int(tuple[0]), tuple[1]) for tuple in instructions]
     except Exception as e:
         wlabel.config(text=f'There was a problem with your file, please upload it again')
         return
     
     Frames = sorted(Frames)
-    start_iterations(tam_Frame, so, proc, Frames, Frames_so, instrucciones)
+    start_iterations(tam_Frame, so, proc, Frames, Frames_so, instructions)
 
 
 def on_focus_in(entry):
